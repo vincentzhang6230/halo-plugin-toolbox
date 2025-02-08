@@ -1,0 +1,22 @@
+# Refer https://docs.halo.run/developer-guide/plugin/basics/manifest
+
+apiVersion: plugin.halo.run/v1alpha1
+kind: Plugin
+metadata:
+  # The name defines how the plugin is invoked, A unique name
+  name: toolbox
+spec:
+  enabled: true
+  requires: ">=2.20.0"
+  author:
+    name: Halo
+    website: https://github.com/vincentzhang6230
+  logo: logo.png
+  homepage: https://github.com/vincentzhang6230/halo-plugin-toolbox#readme
+  repo: https://github.com/vincentzhang6230/halo-plugin-toolbox
+  issues: https://github.com/vincentzhang6230/halo-plugin-toolbox/issues
+  displayName: "halo工具箱"
+  description: "这是一个halo工具箱"
+  license:
+    - name: "GPL-3.0"
+      url: "https://github.com/vincentzhang6230/halo-plugin-toolbox/blob/main/LICENSE"
