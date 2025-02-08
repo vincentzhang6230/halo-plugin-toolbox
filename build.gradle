@@ -5,7 +5,7 @@ plugins {
     id "run.halo.plugin.devtools" version "0.2.0"
 }
 
-group 'run.halo.starter'
+group 'run.halo.toolbox'
 sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -13,10 +13,12 @@ repositories {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/releases' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://maven.aliyun.com/repository/public'}
+    maven { url 'https://maven.aliyun.com/repository/central'}
 }
 
 dependencies {
-    implementation platform('run.halo.tools.platform:plugin:2.20.0-SNAPSHOT')
+    implementation platform('run.halo.tools.platform:plugin:2.20.11')
     compileOnly 'run.halo.app:api'
 
     testImplementation 'run.halo.app:api'
@@ -52,5 +54,7 @@ build {
 }
 
 halo {
-    version = '2.20'
+    version = '2.20.11'
+    debug = true
+    suspend = true
 }
