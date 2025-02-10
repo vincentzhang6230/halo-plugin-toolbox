@@ -2,6 +2,7 @@ package run.halo.toolbox.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
@@ -28,5 +29,10 @@ public class ProductController {
     @GetMapping("-/list")
     public Mono<List<Product>> list() {
         return productService.list();
+    }
+
+    @GetMapping("{productId}")
+    public Mono<Product> getProduct(@PathVariable(value = "productId") String productId) {
+        return productService.get(productId);
     }
 }

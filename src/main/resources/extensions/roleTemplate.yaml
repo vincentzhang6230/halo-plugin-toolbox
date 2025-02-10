@@ -1,0 +1,14 @@
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: product-role-view-public
+  labels:
+    halo.run/role-template: "true"
+    rbac.authorization.halo.run/aggregate-to-anonymous: "true"
+  annotations:
+    rbac.authorization.halo.run/module: "product Management"
+    rbac.authorization.halo.run/display-name: "product Public API"
+rules:
+  - apiGroups: ["product.plugin.toolbox.run"]
+    resources: ["product"]
+    verbs: ["*"]

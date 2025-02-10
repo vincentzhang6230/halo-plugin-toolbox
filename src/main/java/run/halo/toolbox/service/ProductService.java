@@ -11,4 +11,6 @@ public interface ProductService {
     Mono<ListResult<Product>> page(ServerWebExchange exchange);
 
     Mono<List<Product>> list();
+
+    Mono<Product> get(String productId);
 }
