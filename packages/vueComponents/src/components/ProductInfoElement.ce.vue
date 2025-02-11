@@ -7,7 +7,11 @@ const props = defineProps({
     product:String,
 })
 const product = ref<Product>()
+const password = ref<string>("")
 
+const login = () => {
+    window.location.href = "/login"
+}
 onMounted(() => {
     ProductData(props.product as string)
 })
@@ -16,6 +20,14 @@ const ProductData = async (id : string) => {
     await fetch(`/apis/product.plugin.toolbox.run/v1alpha1/product/${id}`).then((res) => {
         res.ok && res.json().then(data => {
             product.value = data
+        })
+    })
+}
+
+const ProductContentData = async () => {
+    await fetch(`/apis/product.plugin.toolbox.run/v1alpha1/product/-/password?productId=${product.value?.metadata.name}&password=${password.value}`).then((res) => {
+        res.text().then(data => {
+            product.value!!.spec.content = data
         })
     })
 }
@@ -57,7 +69,7 @@ const ProductData = async (id : string) => {
                     </div>
 
                     <!-- 销售信息 -->
-                    <div class="grid grid-cols-2 gap-4">
+                    <div v-if="product.spec.shipType === 3" class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="text-gray-500 text-sm">已售数量</label>
                             <div class="mt-1 font-medium">{{ product.spec.sales }}</div>
@@ -77,7 +89,15 @@ const ProductData = async (id : string) => {
                     <!-- 商品内容 -->
                     <div>
                         <label class="text-gray-500 text-sm">商品内容</label>
-                        <div class="mt-1 whitespace-pre-line bg-gray-50 p-3 rounded-lg">
+                        <div v-if="product.spec.shipType == 1 && product.spec.content == 'Product is password'">
+                            <input v-model="password"  placeholder="请输入密码" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" />
+                            <button @click="ProductContentData">获取内容</button>
+                        </div>
+                        <div v-else-if="product.spec.shipType == 2 && product.spec.content == 'User is not login'">
+                            <button @click="login">登录</button>
+                        </div>
+                        <div v-else-if="product.spec.shipType == 3 && product.spec.content == 'User is not paid'"></div>
+                        <div v-else class="mt-1 whitespace-pre-line bg-gray-50 p-3 rounded-lg">
                             {{ product.spec.content }}
                         </div>
                     </div>

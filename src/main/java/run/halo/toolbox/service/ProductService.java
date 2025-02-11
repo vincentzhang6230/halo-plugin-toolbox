@@ -13,4 +13,6 @@ public interface ProductService {
     Mono<List<Product>> list();
 
     Mono<Product> get(String productId);
+
+    Mono<String> password(String productId, String password);
 }

@@ -5,7 +5,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import run.halo.app.extension.ListOptions;
@@ -43,7 +42,18 @@ public class ProductServiceImpl implements ProductService {
             case 0: yield isFree(product);
             case 1: yield isPassword(product);
             case 2: yield isLogin(product);
+            case 3: yield isPaid(product);
             default: yield Mono.empty();
+        });
+    }
+
+    @Override
+    public Mono<String> password(String productId, String password) {
+        return client.fetch(Product.class, productId).flatMap(product -> {
+            if (!product.getSpec().getPassword().equals(password)) {
+                return Mono.just("Password is wrong");
+            }
+            return Mono.just(product.getSpec().getContent());
         });
     }
 
@@ -62,6 +72,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Mono<Product> isLogin(Product product) {
+        return ReactiveSecurityContextHolder.getContext()
+            .flatMap(securityContext -> {
+                Authentication authentication = securityContext.getAuthentication();
+                if (authentication.getPrincipal() instanceof String) {
+                    product.getSpec().setContent("User is not login");
+                }
+                return Mono.just(product);
+            });
+    }
+
+    private Mono<Product> isPaid(Product product) {
         return ReactiveSecurityContextHolder.getContext()
             .flatMap(securityContext -> {
                 Authentication authentication = securityContext.getAuthentication();

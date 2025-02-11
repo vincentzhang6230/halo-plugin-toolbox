@@ -38,7 +38,7 @@ const ProductListData = () => {
   })
 }
 const ProductData = (id : string) => {
-  axiosInstance.get(`/apis/product.plugin.toolbox.run/v1alpha1/product/${id}`).then((res) => {
+  axiosInstance.get(`/apis/product.plugin.halo.run/v1alpha1/products/${id}`).then((res) => {
     product.value = res.data
   })
 }
@@ -95,7 +95,7 @@ const closeDetail = () => {
             </div>
 
             <!-- 销售信息 -->
-            <div class="grid grid-cols-2 gap-4">
+            <div v-if="product.spec.shipType === 3" class="grid grid-cols-2 gap-4">
               <div>
                 <label class="text-gray-500 text-sm">已售数量</label>
                 <div class="mt-1 font-medium">{{ product.spec.sales }}</div>
@@ -148,7 +148,7 @@ const closeDetail = () => {
               {{ p.spec.description }}
             </p>
             <!-- 元信息 -->
-            <div class="flex justify-between items-center text-sm text-gray-500">
+            <div v-if="p.spec.shipType === 3" class="flex justify-between items-center text-sm text-gray-500">
               <span>{{ p.spec.total }}</span>
               <div class="flex items-center">
                 <span class="mr-2">👤</span>

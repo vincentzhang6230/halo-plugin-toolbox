@@ -10,5 +10,5 @@ metadata:
     rbac.authorization.halo.run/display-name: "product Public API"
 rules:
   - apiGroups: ["product.plugin.toolbox.run"]
-    resources: ["product"]
+    resources: ["product","product/password"]
     verbs: ["*"]
