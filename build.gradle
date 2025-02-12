@@ -21,6 +21,8 @@ dependencies {
     implementation platform('run.halo.tools.platform:plugin:2.20.11')
     compileOnly 'run.halo.app:api'
 
+    implementation 'cn.hutool:hutool-all:5.8.21'
+
     testImplementation 'run.halo.app:api'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

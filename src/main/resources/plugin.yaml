@@ -17,6 +17,8 @@ spec:
   issues: https://github.com/vincentzhang6230/halo-plugin-toolbox/issues
   displayName: "halo工具箱"
   description: "这是一个halo工具箱"
+  settingName: plugin-toolbox-settings
+  configMapName: plugin-toolbox-config
   license:
     - name: "GPL-3.0"
       url: "https://github.com/vincentzhang6230/halo-plugin-toolbox/blob/main/LICENSE"
