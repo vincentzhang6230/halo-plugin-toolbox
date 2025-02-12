@@ -14,13 +14,13 @@ export interface Metadata {
 export interface ProductSpec {
   productName: string;
   description: string;
-  price: string;
+  price?: string;
   image: string;
   shipType: number;
-  password: string;
+  password?: string;
   content: string;
-  total: number;
-  sales: number;
+  total?: number;
+  sales?: number;
 }
 
 /**
@@ -28,9 +28,37 @@ export interface ProductSpec {
  */
 export interface Product {
   spec: ProductSpec;
-  apiVersion: "product.plugin.shop.run/v1alpha1";
+  apiVersion: "product.plugin.halo.run/v1alpha1";
   kind: "Product";
   metadata: Metadata;
+}
+
+/**
+ * 自定义模型生成 list API 所对应的类型
+ */
+export interface ExtensionList<T> {
+  page: number;
+  size: number;
+  total: number;
+  items: Array<T>;
+  first: boolean;
+  last: boolean;
+  hasNext: boolean;
+  hasPrevious: boolean;
+  totalPages: number;
+}
+
+/**
+ * 默认分页查询参数
+ */
+export interface QueryParams {
+  page: number;
+  pageSize: number;
+}
+
+export interface ProductQuery extends QueryParams {
+  productName?: string;
+  shipType?: number;
 }
 
 export const ProductType = (type: number) => {
@@ -42,7 +70,7 @@ export const ProductType = (type: number) => {
     case 2:
       return '登录查看商品'
     case 3:
-      return '登录查看商品'
+      return '付费商品'
     default:
       return '未知商品'
   }

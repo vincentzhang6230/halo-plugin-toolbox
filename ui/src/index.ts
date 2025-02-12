@@ -30,7 +30,7 @@ export default definePlugin({
             component: ProductView,
           },
           {
-            path: "product-add-view",
+            path: "product-add-view/:productId",
             name: "ProductAddView",
             component: ProductAddView,
             meta: {
