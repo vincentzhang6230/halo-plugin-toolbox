@@ -1,5 +1,6 @@
 package run.halo.toolbox.service.impl;
 
+import cn.hutool.core.util.ReUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
@@ -7,6 +8,7 @@ import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import run.halo.app.content.PostContentService;
 import run.halo.app.extension.ListOptions;
 import run.halo.app.extension.ListResult;
 import run.halo.app.extension.ReactiveExtensionClient;
@@ -14,6 +16,7 @@ import run.halo.app.extension.router.selector.FieldSelector;
 import run.halo.toolbox.extension.Product;
 import run.halo.toolbox.query.ProductQuery;
 import run.halo.toolbox.service.ProductService;
+import run.halo.toolbox.utils.RegexUtils;
 import java.util.List;
 
 @Service
@@ -21,6 +24,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ReactiveExtensionClient client;
+    private final PostContentService postContentService;
 
     @Override
     public Mono<ListResult<Product>> page(ServerWebExchange exchange) {
@@ -55,6 +59,16 @@ public class ProductServiceImpl implements ProductService {
             }
             return Mono.just(product.getSpec().getContent());
         });
+    }
+
+    @Override
+    public Mono<Boolean> getShipType(String postId) {
+        return postContentService.getReleaseContent(postId).flatMap(contentWrapper -> {
+
+            boolean contains = ReUtil.contains(RegexUtils.pRegex, contentWrapper.getContent());
+            return Mono.just(contains);
+            }
+        );
     }
 
     private Mono<Product> isFree(Product product) {

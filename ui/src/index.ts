@@ -2,8 +2,10 @@ import { definePlugin } from "@halo-dev/console-shared";
 import ProductView from "./views/ProductView.vue";
 import ProductAddView from "./views/ProductAddView.vue";
 import { IconPlug } from "@halo-dev/components";
-import { markRaw } from "vue";
+import {markRaw, type Ref} from "vue";
 import {ExtensionProductCard} from "@/extension/product-cards";
+import type {ListedPost} from "@halo-dev/api-client";
+import ShipTypeTag from "./extension/ShipTypeTag.vue";
 
 export default definePlugin({
   components: {},
@@ -46,6 +48,20 @@ export default definePlugin({
   extensionPoints: {
     "default:editor:extension:create": () => {
       return [ExtensionProductCard]
+    },
+    "post:list-item:field:create": (post: Ref<ListedPost>) => {
+      return [
+        {
+          priority: 0,
+          position: "end",
+          component: markRaw(ShipTypeTag),
+          props: {
+            p: post.value.post.metadata.name
+          },
+          permissions:[],
+          hidden: false
+        }
+      ]
     }
   },
 });

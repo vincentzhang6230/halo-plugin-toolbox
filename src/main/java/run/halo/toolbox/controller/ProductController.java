@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import run.halo.app.core.extension.content.Post;
 import run.halo.app.extension.ListResult;
 import run.halo.app.plugin.ApiVersion;
 import run.halo.toolbox.extension.Product;
@@ -42,5 +43,11 @@ public class ProductController {
         @RequestParam(name = "productId") String productId,
         @RequestParam(name = "password") String password) {
         return productService.password(productId,password);
+    }
+
+    @GetMapping("-/type")
+    public Mono<Boolean> getShipType(
+        @RequestParam(name = "postId") String postId) {
+        return productService.getShipType(postId);
     }
 }

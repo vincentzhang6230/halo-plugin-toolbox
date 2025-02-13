@@ -15,4 +15,6 @@ public interface ProductService {
     Mono<Product> get(String productId);
 
     Mono<String> password(String productId, String password);
+
+    Mono<Boolean> getShipType(String postId);
 }
